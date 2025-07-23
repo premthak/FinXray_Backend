@@ -14,6 +14,7 @@ import aiofiles
 from ocr import process_mca_filing
 from risk_model import calculate_risk_score
 from email_notifications import send_risk_alert
+from company_enrichment import enrich_company
 
 app = FastAPI(
     title="FinXray Backend",
