@@ -14,9 +14,15 @@ async def clearbit_lookup(name: str) -> Dict[str, Any]:
     """Return firmographics from Clearbit Name-to-Domain + Company APIs."""
     try:
         async with httpx.AsyncClient(timeout=12) as client:
-            r = await client2/companies/find",
+            r = await client.get(
+                "https://company.clearbit.com/v2/companies/find",
                 params={"name": name},
                 auth=(CLEARBIT_KEY, "")
+            )
+            return r.json() if r.status_code == 200 else {}
+    except Exception:
+        return {}
+
             )
             return r.json() if r.status_code == 200 else {}
     except:
