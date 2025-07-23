@@ -23,10 +23,6 @@ async def clearbit_lookup(name: str) -> Dict[str, Any]:
     except Exception:
         return {}
 
-            return r.json() if r.status_code == 200 else {}
-    except:
-        return {}
-
 async def opencorp_lookup(name: str) -> Dict[str, Any]:
     """Return first matching legal entity from OpenCorporates."""
     try:
