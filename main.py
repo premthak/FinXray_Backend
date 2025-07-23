@@ -257,7 +257,7 @@ async def search_company(company_name: str):
         raise HTTPException(status_code=500, detail=f"Error analyzing company: {str(e)}")
 
 
-if __name__ == "__main__":  ← KEEP THIS AT THE VERY END (DON'T CHANGE)
+if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 if __name__ == "__main__":
