@@ -213,16 +213,7 @@ async def get_api_info():
             "Subscription management"
         ]
     }
-},
-        "features": [
-            "AI risk scoring",
-            "MCA filing analysis", 
-            "Email alerts",
-            "Subscription management"
-        ]
-    }
-
-# Company search endpoint (no file
+# Company search endpoint (no file upload needed)
 @app.get("/api/search/{company_name}")
 async def search_company(company_name: str):
     """
@@ -264,6 +255,7 @@ async def search_company(company_name: str):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error analyzing company: {str(e)}")
+
 
 if __name__ == "__main__":  ← KEEP THIS AT THE VERY END (DON'T CHANGE)
     uvicorn.run(app, host="0.0.0.0", port=8000)
