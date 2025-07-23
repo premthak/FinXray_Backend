@@ -213,6 +213,60 @@ async def get_api_info():
             "Subscription management"
         ]
     }
+},
+        "features": [
+            "AI risk scoring",
+            "MCA filing analysis", 
+            "Email alerts",
+            "Subscription management"
+        ]
+    }
+
+# Company search endpoint (no file
+@app.get("/api/search/{company_name}")
+async def search_company(company_name: str):
+    """
+    Search for company by name and return enriched data with risk analysis
+    """
+    try:
+        # Get enriched data from external APIs
+        enriched_data = await enrich_company(company_name)
+        
+        if not enriched_data.get("found_data", False):
+            raise HTTPException(status_code=404, detail=f"No data found for company: {company_name}")
+        
+        # Calculate risk score using enriched data
+        risk_analysis = calculate_risk_score(enriched_data)
+        
+        # Send alert if high risk
+        if risk_analysis.get("overall", 0) >= 8:
+            await send_risk_alert(
+                company_name, 
+                risk_analysis.get("overall", 0),
+                risk_analysis.get("red_flags", [])
+            )
+        
+        return {
+            "startup_name": company_name,
+            "risk_score": risk_analysis.get("overall", 0),
+            "risk_category": risk_analysis.get("risk_category", "UNKNOWN"),
+            "fraud_risk": risk_analysis.get("fraud", 0),
+            "compliance_risk": risk_analysis.get("compliance", 0),
+            "traction_risk": risk_analysis.get("traction", 0),
+            "founder_risk": risk_analysis.get("founder", 0),
+            "red_flags": risk_analysis.get("red_flags", []),
+            "email_sent": risk_analysis.get("overall", 0) >= 8,
+            "analysis_id": f"search_{company_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            "data_sources": ["clearbit", "opencorporates", "crunchbase"],
+            "enriched_data": enriched_data
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error analyzing company: {str(e)}")
+
+if __name__ == "__main__":  ← KEEP THIS AT THE VERY END (DON'T CHANGE)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
