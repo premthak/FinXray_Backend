@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .analysis.startup_data_fetcher import StartupDataFetcher
+from analysis.startup_data_fetcher import StartupDataFetcher
 
 app = FastAPI(
     title="FinXray Backend", 
