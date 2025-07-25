@@ -2,10 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .analysis.startup_data_fetcher import StartupDataFetcher
 
+app = FastAPI(
+    title="FinXray Backend", 
+    description="AI-powered startup risk analysis platform",
+    version="1.0.0"
+)
 
-
-
-# Enable CORS so your Vercel frontend can access this backend endpoint
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://fin-xray-front.vercel.app"],
@@ -19,6 +21,7 @@ async def analyze_startup(company_name: str, domain: str):
     fetcher = StartupDataFetcher()
     data = await fetcher.fetch_startup_profile(company_name, domain)
     return data
+
 
 from fastapi import FastAPI, File, UploadFile, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
