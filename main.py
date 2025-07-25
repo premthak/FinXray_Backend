@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from analysis.startup_data_fetcher import StartupDataFetcher
 
-app = FastAPI()
+
 
 # Enable CORS so your Vercel frontend can access this backend endpoint
 app.add_middleware(
