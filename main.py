@@ -13,10 +13,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Your startup analysis endpoint
 @app.post("/analyze-startup")
 async def analyze_startup(company_name: str, domain: str):
-    fetcher = StartupDataFetcher
+    fetcher = StartupDataFetcher()
     data = await fetcher.fetch_startup_profile(company_name, domain)
     return data
 
@@ -42,6 +41,15 @@ app = FastAPI(
     title="FinXray Backend",
     description="AI-powered startup risk analysis platform",
     version="1.0.0"
+)
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://fin-xray-front.vercel.app"],  # Your real frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Configure CORS
