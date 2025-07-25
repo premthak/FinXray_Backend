@@ -16,7 +16,7 @@ app.add_middleware(
 # Your startup analysis endpoint
 @app.post("/analyze-startup")
 async def analyze_startup(company_name: str, domain: str):
-    fetcher = StartupDataFetcher()
+    fetcher = StartupDataFetcher
     data = await fetcher.fetch_startup_profile(company_name, domain)
     return data
 
