@@ -162,7 +162,7 @@ async def login_user(credentials: UserLogin):
 @app.post("/api/subscription/upgrade")
 async def upgrade_subscription(upgrade_data: SubscriptionUpgrade):
     """
-    Handle subscription upgrades (₹25K/month premium plan)
+    Handle subscription upgrades (â‚¹25K/month premium plan)
     """
     # Placeholder subscription logic - integrate with Razorpay/Stripe
     return {
