@@ -232,3 +232,4 @@ def process_uploaded_pdf(file_path: str, filename: str) -> Dict[str, Any]:
             'extraction_successful': False
         }
 
+
