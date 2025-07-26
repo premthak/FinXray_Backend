@@ -1,3 +1,45 @@
+from fastapi import FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
+from typing import Optional
+from utils.analysis import analyze_document  # Custom function
+from utils.market_compare import compare_to_market  # Custom function
+
+app = FastAPI()
+
+# Allow frontend access
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # later replace * with frontend domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.post("/api/analyze")
+async def analyze_startup(
+    file: UploadFile = File(...),
+    industry: Optional[str] = "general"
+):
+    file_content = await file.read()
+
+    try:
+        # Step 1: Analyze the uploaded file
+        results = analyze_document(file_content, industry)
+
+        # Step 2: Add market comparison
+        market_data = compare_to_market(results, industry)
+        results["market_comparison"] = market_data
+
+        return {
+            "success": True,
+            "analysis": results
+        }
+
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e)
+        }
 from fastapi import FastAPI, File, UploadFile, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
