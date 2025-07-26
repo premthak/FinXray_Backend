@@ -12,3 +12,7 @@ pillow
 aiofiles==23.2.1
 email-validator
 httpx==0.26.0
+httpx==0.26.0
+aiofiles==23.2.1
+python-multipart==0.0.6
+
